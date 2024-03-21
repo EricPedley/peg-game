@@ -44,8 +44,18 @@ def numPegs(state: int) -> int:
 
 @cache
 def solve(state: int) -> bool:
-    if numPegs(state) == 1:
+    if numPegs(state) < 8:
+        return False
+
+    if numPegs(state) == 8:
+        for i in range(15):
+            if state & (1 << i) == 0:
+                for j, k in jumpables[i]:
+                    if state & (1 << j) > 0 and state & (1 << k) > 0:
+                        return False
+        print(stringifyState(state))
         return True
+
     for i in range(15):
         if state & (1 << i) == 0:
             for j, k in jumpables[i]:
